@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+        <style>
+            body {
+                background:#080d14;
+                background: radial-gradient(#080d14);
+            }
+            .poster-list.-grid>.poster, .poster-list.-grid>.poster-container {
+
+                display: inline-block;
+                margin: 0 0 10px 10px;
+                margin-top: 0px;
+                margin-right: 0px;
+                margin-bottom: 10px;
+                margin-left: 10px;
+            }
+
+            .poster, .poster-container {
+                -webkit-background-clip: padding-box;
+                border-radius: 4px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+                border-bottom-left-radius: 4px;
+                display: inline-block;
+                overflow: hidden;
+                overflow-x: hidden;
+                overflow-y: hidden;
+                position: relative;
+            }
+
+            li {
+                display: list-item;
+                text-align: -webkit-match-parent;
+            }
+            ol, ul {
+                list-style: none;
+                list-style-position: initial;
+                list-style-image: initial;
+                list-style-type: none;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="container">
+            <h1>Movies :</h1>
+            <br>
+            <h4>
+
+            </h4>
+            <section>
+                <ul class="poster-list -p70 -grid">
+                    <li class="listitem poster-container">
+                        <div class="size">
+                            <a href="{{url_for('display_movie_info', movieid=18491)}}">
+                                <img width="105" height="70" src="https://image.tmdb.org/t/p/w500/m9PTii0XWCIKZBBrCrOn8RLTK0w.jpg" class="img-thumbnail rounded mx-auto d-block" alt="...">
+                            </a>
+                        </div>
+                    </li>
+
+                    <li class="listitem poster-container">
+                        <div class="size" >
+                            <a href="{{ url_for('display_movie_info', movieid=283566) }}" >
+                                <img width="105" height="70" src="https://image.tmdb.org/t/p/w500//jDwZavHo99JtGsCyRzp4epeeBHx.jpg" class="img-thumbnail rounded mx-auto d-block" alt="...">
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </body>
+</html>

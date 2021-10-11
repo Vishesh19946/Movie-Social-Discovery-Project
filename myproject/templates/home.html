@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <title>Home</title>
+        <style id="compiled-css" type="text/css">
+            :root {
+                --input-padding-x: 1.5rem;
+                --input-padding-y: .75rem;
+            }
+            body {
+                background:#080d14;
+                background: radial-gradient(#080d14);
+            }
+            
+        </style>
+        <script>
+            
+                
+            
+        </script>
+    
+    </head>
+    <body>
+    {% for mess in get_flashed_messages() %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <button type="button" class="btn-close fade" data-bs-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"></span>
+          </button>
+          {{mess}}
+        </div>
+    {% endfor %}
+    <div class="container">
+        <header>
+        <nav class="navbar navbar-expand-lg" >
+                <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <a class="nav-item nav-link" href="{{url_for('home')}}"><b style="color: blanchedalmond; font-family: inherit;" >HOME</b></a>
+                    <a class="nav-item nav-link" href="{{url_for('login')}}"> <b style="color: blanchedalmond; font-family: inherit;">SIGN IN</b> </a>
+                    <a class="nav-item nav-link" href="{{url_for('register')}}"><b style="color: blanchedalmond; font-family: inherit;">CREATE ACCOUNT</b></a>
+                    <a class="nav-item nav-link" href="{{url_for('index', page_no=1)}}"><b style="color: blanchedalmond; font-family: inherit;">FILMS</b></a>
+                    <a class="nav-item nav-link" href="#"><b style="color: blanchedalmond; font-family: inherit;">LISTS</b></a>
+
+                </div>
+                <form class="d-flex" method="post" action="{{ url_for('search') }}">
+                    <input class="form-control me-2" name="keyword" id="keyword" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </nav>
+
+    </header>
+
+    </div>
+
+
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+
+            <div class="carousel-inner">
+
+
+            <div class="carousel-item active">
+              <img src="{{url_for('static',filename='nolan.jpg')}}" class="d-block w-100" alt="..." style="width:100%">
+            </div>
+            <div class="carousel-item">
+              <img src="{{url_for('static',filename='tarantino.jpg')}}" class="d-block w-100" alt="..." style="width:100%">
+            </div>
+                <div class="carousel-item">
+                    <img src="{{url_for('static', filename='scorsese.jpeg')}}" class="d-block w-100" alt="..." style="width:100%">
+                </div>
+            </div>
+            }
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        </div>
+
+        <div class="container">
+            <br><br><br>
+            <div class="container-md">
+                <header><h1 style="color: #9ab; border-bottom: 2px solid; padding: 5px;">Trending This Week</h1></header>
+            <div class="row">
+                {% for i in movie_data %}
+                <div class="col-md-3" style="padding: 10px;">
+                    <div class="size">
+                        <a href="">
+                        <img height="345" width="240" src="https://image.tmdb.org/t/p/w500//{{movie_data[i]}}" class="img-thumbnail rounded mx-auto d-block" alt="...">
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+    </body>
+</html>
