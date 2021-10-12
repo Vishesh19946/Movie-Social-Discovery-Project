@@ -59,7 +59,7 @@ def login():
             next = request.args.get('next')
 
             if next is None or not next[0] == '/':
-                next = url_for('basic_index')
+                next = url_for('index', page_no = 1)
 
             return redirect(next)
         else:
@@ -153,22 +153,25 @@ def members():
     return render_template('members.html', members_username=members_username)
 
 
-@app.route('/films')
-@login_required
-def basic_index():
-    page_no = 1
-    r = generate_url(page_no)
-    if r.status_code == 200:
-        data = r.json().get('results', [])
-        movies = {r['id']: r for r in data}
-        movies_keys = movies.keys()
-    return render_template('base2.0.html', movies_keys=movies_keys, movies=movies, page_no=page_no)
+#@app.route('/films')
+#@login_required
+#def basic_index():
+#    page_no = 1
+#    r = generate_url(page_no)
+#    if r.status_code == 200:
+#        data = r.json().get('results', [])
+#        movies = {r['id']: r for r in data}
+#        movies_keys = movies.keys()
+#    return render_template('base2.0.html', movies_keys=movies_keys, movies=movies, page_no=page_no)
 
 
 @app.route('/films/<int:page_no>')
 @login_required
 def index(page_no):
-    page_no = page_no
+    if page_no <= 0:
+        page_no = 1
+    else:
+        page_no = page_no
     r = generate_url(page_no)
     if r.status_code == 200:
         data = r.json().get('results', [])
