@@ -18,11 +18,7 @@
             
         </style>
         <script>
-            
-                
-            
         </script>
-    
     </head>
     <body>
     {% for mess in get_flashed_messages() %}
@@ -42,16 +38,13 @@
                     <a class="nav-item nav-link" href="{{url_for('register')}}"><b style="color: blanchedalmond; font-family: inherit;">CREATE ACCOUNT</b></a>
                     <a class="nav-item nav-link" href="{{url_for('index', page_no=1)}}"><b style="color: blanchedalmond; font-family: inherit;">FILMS</b></a>
                     <a class="nav-item nav-link" href="#"><b style="color: blanchedalmond; font-family: inherit;">LISTS</b></a>
-
                 </div>
                 <form class="d-flex" method="post" action="{{ url_for('search') }}">
                     <input class="form-control me-2" name="keyword" id="keyword" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </nav>
-
-    </header>
-
+        </header>
     </div>
     <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">

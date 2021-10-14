@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request, redirect, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from tmdbv3api import TMDb
-from myproject.models import User, Reviews
+from myproject.models import User, Reviews, Watchlist
 from myproject import db, app
 from myproject.forms import LoginForm, RegistrationFrom, UpdateUserForm, ReviewsForm
 from myproject.picture_handler import add_profile_pic
@@ -59,7 +59,7 @@ def login():
             next = request.args.get('next')
 
             if next is None or not next[0] == '/':
-                next = url_for('index', page_no = 1)
+                next = url_for('index', page_no=1)
 
             return redirect(next)
         else:
@@ -153,9 +153,9 @@ def members():
     return render_template('members.html', members_username=members_username)
 
 
-#@app.route('/films')
-#@login_required
-#def basic_index():
+# @app.route('/films')
+# @login_required
+# def basic_index():
 #    page_no = 1
 #    r = generate_url(page_no)
 #    if r.status_code == 200:
@@ -281,6 +281,35 @@ def search():
         elif i['media_type'] == 'person':
             person_data[i['id']] = i['name']
     return render_template('search.html', query_string=query_string, movie_data=movie_data, person_data=person_data)
+
+
+@app.route('/watchlist')
+@login_required
+def watchlist():
+    print(current_user.id)
+    watchlist_user = Watchlist.query.filter_by(user_id=current_user.id)
+    movie_data = {}
+    for list in watchlist_user:
+        movie_id = str(list.movie_id)
+        r = requests.get(
+            "https://api.themoviedb.org/3/movie/" + movie_id + "?api_key=d02af6c7dd1f2fd4f2f426fadb5ee4b0"
+                                                               "&append_to_response"
+                                                               "=credits")
+        if r.status_code == 200:
+            title = r.json()['title']
+            poster_path = r.json()['poster_path']
+            movie_data[movie_id] = [title, poster_path]
+
+    return render_template('watchlist.html', movie_data=movie_data)
+
+
+@app.route('/add_to_watchlist/<int:movie_id>')
+def add_to_watchlist(movie_id):
+    watchlist_user = Watchlist(movie_id=movie_id, user_id=current_user.id)
+    db.session.add(watchlist_user)
+    db.session.commit()
+    flash('Added to Watchlist')
+    return redirect(url_for('watchlist'))
 
 
 if __name__ == '__main__':

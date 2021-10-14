@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128))
     # Build Reviews Relationship with User
     review_post = db.relationship('Reviews', backref='author', lazy=True)
+    # Build Watchlist Relationship with User
+    watchlist_user = db.relationship('Watchlist', backref='author', lazy=True)
 
     def __init__(self, email, username, password):
         self.email = email
@@ -54,3 +56,18 @@ class Reviews(db.Model):
 
     def __repr__(self):
         return f"Post Id: {self.review_id} --- Date: {self.review_date} --- Title: {self.movie_title}"
+
+
+class Watchlist(db.Model):
+    users = db.relationship(User)
+
+    watchlist_id = db.Column(db.Integer, primary_key=True)
+    # connect review to a particular author
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    movie_id = db.Column(db.Integer, nullable=False)
+    watched = db.Column(db.Boolean, default=False)
+
+    def __init__(self, user_id, movie_id):
+        self.user_id = user_id
+        self.movie_id = movie_id
+
