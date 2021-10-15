@@ -5,7 +5,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
         <!-- JavaScript Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-
+        <!-- Font Awesome Kit -->
+        <script src="https://kit.fontawesome.com/f2a6aeeb35.js" crossorigin="anonymous"></script>
         <style>
             body {
             background-repeat-x: repeat;
@@ -21,15 +22,7 @@
         .dropdown-item{
             color: #f0eada;
         }
-        .img_wrp {
-          display: inline-block;
-          position: relative;
-        }
-        .close {
-          position: absolute;
-          top: 0;
-          right: 0;
-        }
+
 
         </style>
     </head>
@@ -89,18 +82,22 @@
                         </nav>
                     </header>
         </div>
-        <div class="container">
+        <div class="container-md" style="padding: 10px; margin-top: 40px;">
+            <header style="border-top: 1px solid; border-bottom: 1px solid; padding: 10px; font-size: 30px;"><center>WATCHLIST</center></header>
+            <div class="container-sm">
+                <div class="row" style="padding: 10px;">
+                    {% for movie in movie_data %}
+                    <div class="col-md-2" style="padding: 10px;">
+                        <a href="{{url_for('display_movie_info', movieid=movie)}}">
+                            <img width="240" height="345" style="border: 0.5px;" src="https://image.tmdb.org/t/p/w500//{{movie_data[movie][1]}}" class="img-thumbnail rounded" alt="...">
+                        </a>
+                        <!--  <i class="fas fa-minus-square"></i> -->
+                    </div>
+                    {% endfor %}
 
-            {% for movie in movie_data %}
-            <h3>{{movie_data[movie][0]}}</h3>
-            <div class="img_wrp">
-            <a href="{{url_for('display_movie_info', movieid=movie)}}">
-                <img width="105" height="240" style="border: 0.5px;" src="https://image.tmdb.org/t/p/w500//{{movie_data[movie][1]}}" class="img-thumbnail rounded" alt="...">
-            </a>
+
+                </div>
             </div>
-
-            <br>
-            {% endfor %}
         </div>
     </body>
 </html>

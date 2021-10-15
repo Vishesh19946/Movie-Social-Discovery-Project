@@ -480,10 +480,15 @@ ol, ul {
                         <a href="{{url_for('reviews', movie_id=movie_id)}}">
                             <button class="btn btn-success">Add Review</button>
                         </a>
+                        {% if movie_in_watchlist == False %}
                         <a href="{{url_for('add_to_watchlist', movie_id=movie_id)}}">
                             <button class="btn btn-success">Add to Watchlist</button>
                         </a>
-
+                        {% else %}
+                        <a href="{{url_for('delete_from_watchlist', movie_id=movie_id)}}">
+                            <button class="btn btn-success">Delete from Watchlist</button>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
                 </h6>

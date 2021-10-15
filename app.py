@@ -20,6 +20,19 @@ tmdb.language = 'en'
 tmdb.debug = True
 
 
+def is_in_watchlist(movie_id):
+    movieid = int(movie_id)
+    watchlist_user = Watchlist.query.filter_by(user_id=current_user.id)
+    list_movie_id = []
+    for list in watchlist_user:
+        list_movie_id.append(list.movie_id)
+
+    if movieid in list_movie_id:
+        return True
+    else:
+        return False
+
+
 # @app.route()
 def generate_url(page_no):
     r = requests.get(
@@ -208,6 +221,7 @@ def display_movie_info(movieid):
         # data = r.json().get('results', [])
         # movies = {r['id']: r for r in data}
         # movies_keys = movies.keys()
+        movie_in_watchlist = is_in_watchlist(movie_id)
         crew_data = r.json()['credits']['crew']
         crew = {r['job']: r for r in crew_data}
         # print(crew)
@@ -229,7 +243,8 @@ def display_movie_info(movieid):
     return render_template('movie_page.html', person_id=person_id, director_name=director_name, poster=poster,
                            title=title, overview=overview, backdrop_path=backdrop_path,
                            vote_average=vote_average, release_date=release_date, vote_count=vote_count,
-                           recommendations_data=recommendations_data, movie_id=movie_id)
+                           recommendations_data=recommendations_data, movie_id=movie_id,
+                           movie_in_watchlist=movie_in_watchlist)
 
 
 @app.route('/person_details/<int:person_id>')
@@ -286,7 +301,6 @@ def search():
 @app.route('/watchlist')
 @login_required
 def watchlist():
-    print(current_user.id)
     watchlist_user = Watchlist.query.filter_by(user_id=current_user.id)
     movie_data = {}
     for list in watchlist_user:
@@ -304,12 +318,22 @@ def watchlist():
 
 
 @app.route('/add_to_watchlist/<int:movie_id>')
+@login_required
 def add_to_watchlist(movie_id):
     watchlist_user = Watchlist(movie_id=movie_id, user_id=current_user.id)
     db.session.add(watchlist_user)
     db.session.commit()
     flash('Added to Watchlist')
     return redirect(url_for('watchlist'))
+
+
+@app.route('/delete_from_watchlist/<int:movie_id>')
+def delete_from_watchlist(movie_id):
+    Watchlist.query.filter_by(user_id=current_user.id, movie_id=movie_id).delete()
+    db.session.commit()
+    flash("Movie Deleted from Watchlist")
+
+    return redirect(url_for('watchlist', movieid=movie_id))
 
 
 if __name__ == '__main__':
